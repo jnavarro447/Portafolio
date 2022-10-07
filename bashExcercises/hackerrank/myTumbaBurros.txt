@@ -1,0 +1,10 @@
+
+++ Para remover la coincidencia del patron.
+${var#Pattern} Remove from $var the shortest part of $Pattern that matches the front end of $var.
+${var##Pattern} Remove from $var the longest part of $Pattern that matches the front end of $var.
+
+${var%Pattern} Remove from $var the shortest part of $Pattern that matches the back end of $var.
+${var%%Pattern} Remove from $var the longest part of $Pattern that matches the back end of $var.
+++ Remember, # and ## work from the left end (beginning) of string,
+++           % and %% work from the right end.
+-----------------------------------------------------------------
