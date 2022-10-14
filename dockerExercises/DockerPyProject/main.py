@@ -35,17 +35,12 @@ def run_container(container):
 def unpause_container(container):
     container.unpause()
 
-#
-# def get_container_object():
-#     global container
-#     # manejar excepciones si el contenedor ya no se encuentra corriendo
-#
-
 
 def main():
     while True:
         global container
 
+	# manejar excepciones si el contenedor ya no se encuentra
         try:
             container = client.containers.get(container_id)
         except requests.exceptions.HTTPError:
@@ -56,10 +51,10 @@ def main():
 
         if container_status != "running":
             if container_status == "paused":
-                print("Contenedor en paused")
+		print("Contenedor en pausa")
                 unpause_container(container)
             elif container_status == "created" or container_status == "exited":
-                print("Contenedor just to run")
+                print("Contenedor corriendo")
                 run_container(container)
             elif container_status == "restarting":
                 print("Procesos en contenedor reiniciando")
