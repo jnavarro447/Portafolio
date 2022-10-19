@@ -14,7 +14,7 @@ import requests
 
 # Variables globales
 client = docker.from_env()
-container_id = "515bf9db4eed700d955cf97b695ea785a1a56dfffd98c98ea0cafbb9d451acdb"
+container_id = "a98a1351fda8"
 container = None
 
 
@@ -40,10 +40,16 @@ def main():
     while True:
         global container
 
-	# manejar excepciones si el contenedor ya no se encuentra
         try:
             container = client.containers.get(container_id)
         except requests.exceptions.HTTPError:
+            print("No se encontro contenedor, creando un nuevo contenedor...")
+            create_container()
+        except docker.errors.NotFound:
+            print("ID no identificado, creando nuevo contenedor")
+            create_container()
+        except docker.errors.APIError:
+            print("ID no identificado, creando nuevo contenedor pin")
             create_container()
 
         container_status = container.status
@@ -51,14 +57,14 @@ def main():
 
         if container_status != "running":
             if container_status == "paused":
-		print("Contenedor en pausa")
+                print("Contenedor en paused")
                 unpause_container(container)
             elif container_status == "created" or container_status == "exited":
-                print("Contenedor corriendo")
+                print("Contenedor just to run")
                 run_container(container)
             elif container_status == "restarting":
                 print("Procesos en contenedor reiniciando")
-                time.sleep(2.0)
+                # time.sleep(2.0)
             elif container_status == "dead":
                 print("Contenedor ha sido eliminado. \nCreando nuevo contenedor...")
                 container = None
