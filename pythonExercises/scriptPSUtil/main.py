@@ -4,7 +4,8 @@ import psutil
 
 def get_total_disk_capacity_gb():
     totalUsage = psutil.disk_usage("/").total / (1024.0**3)
-    totalInGB = totalUsage.__ceil__()
+    # totalInGB = totalUsage.__ceil__()
+    totalInGB = round(totalUsage)
     return totalInGB
 
 
