@@ -14,17 +14,21 @@ import requests
 
 # Variables globales
 client = docker.from_env()
-container_id = "a98a1351fda8"
+container_id = "a84f9e68fff0"
 container = None
 
 
 def create_container():
+    global client
+    global container_id
+    global container
+    # Se comento la linea donde se define el nombre. Ya que daba error al crear un contenedor al ejecutar el programa
     container_obj = client.containers.run("internship-api-project",
                                           detach=True,
-                                          name="fastAPIProject",
+                                          # name="fastAPIProject",
                                           ports={'8000/tcp': ('0.0.0.0', 8000)},
                                           )
-    global container_id
+    container = container_obj
     container_id = container_obj.id
 
 
@@ -49,7 +53,7 @@ def main():
             print("ID no identificado, creando nuevo contenedor")
             create_container()
         except docker.errors.APIError:
-            print("ID no identificado, creando nuevo contenedor pin")
+            print("ID no identificado, creando nuevo contenedor...")
             create_container()
 
         container_status = container.status
