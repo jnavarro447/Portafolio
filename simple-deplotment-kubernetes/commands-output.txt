@@ -1,0 +1,57 @@
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % minikube start -p webapp-deploy-k8s    
+😄  [webapp-deploy-k8s] minikube v1.28.0 on Darwin 12.6.1
+✨  Automatically selected the docker driver. Other choices: virtualbox, ssh
+📌  Using Docker Desktop driver with root privileges
+👍  Starting control plane node webapp-deploy-k8s in cluster webapp-deploy-k8s
+🚜  Pulling base image ...
+🔥  Creating docker container (CPUs=2, Memory=4000MB) ...
+🐳  Preparing Kubernetes v1.25.3 on Docker 20.10.20 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "webapp-deploy-k8s" cluster and "default" namespace by default
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % ls -lha
+total 80
+drwxr-xr-x@ 12 jose_navarro  staff   384B Nov 14 16:23 .
+drwxr-xr-x@ 10 jose_navarro  staff   320B Nov  8 12:47 ..
+-rw-r--r--@  1 jose_navarro  staff   6.0K Nov  8 14:44 .DS_Store
+-rw-r--r--   1 jose_navarro  staff   166B Nov 14 12:29 Dockerfile
+-rw-r--r--   1 jose_navarro  staff   647B Nov 14 13:05 application-deployment.yml
+-rw-r--r--   1 jose_navarro  staff   188B Nov  8 14:47 bruh.html
+drwxr-xr-x   5 jose_navarro  staff   160B Nov  8 14:47 img
+-rw-r--r--   1 jose_navarro  staff   754B Nov  8 14:48 index.html
+-rw-r--r--   1 jose_navarro  staff   430B Nov 14 13:55 k8s-deploy-app.yaml
+-rw-r--r--   1 jose_navarro  staff   429B Nov 14 16:23 k8s-deploy-app.yml
+-rw-r--r--   1 jose_navarro  staff   303B Nov  8 14:48 scripts.js
+-rw-r--r--   1 jose_navarro  staff   101B Nov  8 13:19 styles.css
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % kubectl apply -f k8s-deploy-app.yml 
+deployment.apps/simple-app-deploy created
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % ls -lha
+total 80
+drwxr-xr-x@ 12 jose_navarro  staff   384B Nov 14 16:23 .
+drwxr-xr-x@ 10 jose_navarro  staff   320B Nov  8 12:47 ..
+-rw-r--r--@  1 jose_navarro  staff   6.0K Nov  8 14:44 .DS_Store
+-rw-r--r--   1 jose_navarro  staff   166B Nov 14 12:29 Dockerfile
+-rw-r--r--   1 jose_navarro  staff   647B Nov 14 13:05 application-deployment.yml
+-rw-r--r--   1 jose_navarro  staff   188B Nov  8 14:47 bruh.html
+drwxr-xr-x   5 jose_navarro  staff   160B Nov  8 14:47 img
+-rw-r--r--   1 jose_navarro  staff   754B Nov  8 14:48 index.html
+-rw-r--r--   1 jose_navarro  staff   430B Nov 14 13:55 k8s-deploy-app.yaml
+-rw-r--r--   1 jose_navarro  staff   429B Nov 14 16:23 k8s-deploy-app.yml
+-rw-r--r--   1 jose_navarro  staff   303B Nov  8 14:48 scripts.js
+-rw-r--r--   1 jose_navarro  staff   101B Nov  8 13:19 styles.css
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % vi k8s-service-app.yml 
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % kubectl apply -f .    
+deployment.apps/simple-app-deploy unchanged
+service/simple-app-deploy created
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % kubectl get service          
+NAME                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+simple-app-deploy   ClusterIP   10.109.194.217   <none>        80/TCP    68s
+jose_navarro@Joses-MacBook-Pro simple-deplotment-kubernetes % kubectl port-forward service/simple-app-deploy 8080:80
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
+Handling connection for 8080
+Handling connection for 8080
