@@ -28,4 +28,5 @@ class UpdateUser(BaseModel):
     firstName: Optional[str]
     lastName: Optional[str]
     middleName: Optional[str]
+    gender: Optional[Gender]
     roles: Optional[List[Role]]
