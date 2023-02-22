@@ -61,10 +61,7 @@ async def delete_user(user_id: UUID):
 async def update_user(user_update: UpdateUser, user_id: UUID):
     # for user in db:
     for index, user in enumerate(db):
-        print('Entro al loop')
-        print(user)
         if user.id == user_id:
-            print('Entro al IF')
             if user_update.firstName is not None:
                 user.firstName = user_update.firstName
             if user_update.lastName is not None:
