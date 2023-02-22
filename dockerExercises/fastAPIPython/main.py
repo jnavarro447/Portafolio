@@ -43,6 +43,16 @@ async def insert_user(user: User):
     db.append(user)
     return {"id: ": user.id}
 
+@app.get("/api/v1/users/{user_id}")
+async def get_user(user_id: UUID):
+    for user in db:
+        if user.id == user_id:
+            return user
+    raise HTTPException(
+        status_code=404,
+        detail=f"User does not exists"
+    )
+
 
 @app.delete("/api/v1/users/{user_id}")
 async def delete_user(user_id: UUID):
