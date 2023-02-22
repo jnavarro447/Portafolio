@@ -1,5 +1,5 @@
 from typing import List
-from uuid import UUID
+from uuid import UUID, uuid4
 from fastapi import FastAPI, HTTPException
 from models import User, Gender, Role, UpdateUser
 
@@ -39,16 +39,18 @@ async def fetch_users():
 
 @app.post("/api/v1/users")
 async def insert_user(user: User):
+    user.id = uuid4()
     db.append(user)
     return {"id: ": user.id}
 
 
 @app.delete("/api/v1/users/{user_id}")
 async def delete_user(user_id: UUID):
-    for user in db:
+    # for user in db:
+    for index, user in enumerate(db):
         if user.id == user_id:
-            db.remove(user)
-            return
+            db.pop(index)
+            return {"msg": "User has been deleted"}
     raise HTTPException(
         status_code=404,
         detail=f"User with id{user_id} does not exists"
@@ -57,8 +59,12 @@ async def delete_user(user_id: UUID):
 
 @app.put("/api/v1/users/{user_id}")
 async def update_user(user_update: UpdateUser, user_id: UUID):
-    for user in db:
+    # for user in db:
+    for index, user in enumerate(db):
+        print('Entro al loop')
+        print(user)
         if user.id == user_id:
+            print('Entro al IF')
             if user_update.firstName is not None:
                 user.firstName = user_update.firstName
             if user_update.lastName is not None:
@@ -67,10 +73,10 @@ async def update_user(user_update: UpdateUser, user_id: UUID):
                 user.middleName = user_update.middleName
             if user_update.roles is not None:
                 user.roles = user_update.roles
-            return
-        raise HTTPException(
-            status_code=404,
-            detail=f"User with id{user_id} does not exists"
-        )
+            return {"msg ": "User has been updated"}
+    raise HTTPException(
+        status_code=404,
+        detail=f"User with id{user_id} does not exists"
+    )
 
 

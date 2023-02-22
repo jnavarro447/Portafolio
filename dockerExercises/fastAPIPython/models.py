@@ -16,7 +16,7 @@ class Role(str, Enum):
 
 
 class User(BaseModel):
-    id: Optional[UUID] = uuid4()
+    id: Optional[UUID]
     firstName: str
     lastName: str
     middleName: Optional[str]
